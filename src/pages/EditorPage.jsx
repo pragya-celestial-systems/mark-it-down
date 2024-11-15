@@ -1,26 +1,56 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MUIBreadCrumbs from "../components/MUIBreadCrumbs";
 import styles from "./css/editor.module.css";
 import { Button } from "@mui/material";
+import TextAreaField from "../components/TextAreaField";
+import { useTextAreaContext } from "../context/TextAreaContext";
 
 function EditorPage() {
+  const { value, setValue } = useTextAreaContext();
+
+  function handleSaveFile() {
+    if (!value) {
+      alert("Can't save empty file.");
+      return;
+    }
+
+    const files = JSON.parse(localStorage.getItem("files")) || [];
+    const fileData = {
+      id: files.length,
+      readmeFile: value,
+    };
+
+    files.push(fileData);
+    localStorage.setItem("files", JSON.stringify(files));
+
+    // clear the text field
+    setValue("");
+  }
+
+  function handleDownloadFile(isEditable) {
+    if (isEditable) {
+      console.log("save as readme.md");
+    } else {
+      console.log("save as index.html");
+    }
+  }
+
   return (
     <>
       <div id={styles.topContainer}>
         <MUIBreadCrumbs page="Editor" />
-        <Button variant="contained" id={styles.saveButton}>
+        <Button
+          onClick={handleSaveFile}
+          style={{ background: "#7077a1" }}
+          variant="contained"
+          id={styles.saveButton}
+        >
           Save
         </Button>
       </div>
       <main id={styles.mainContainer}>
-        <div id={styles.leftContainer}>
-          <h2>Readme.md</h2>
-          <textarea name="code-area" id={styles.codeArea}></textarea>
-        </div>
-        <div id={styles.rightContainer}>
-          <h2>Preview</h2>
-          <div name="preview-area" id={styles.previewArea}></div>
-        </div>
+        <TextAreaField onClick={handleDownloadFile} isEditable={true} />
+        <TextAreaField onClick={handleDownloadFile} isEditable={false} />
       </main>
     </>
   );

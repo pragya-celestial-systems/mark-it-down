@@ -12,7 +12,6 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import InfoIcon from "@mui/icons-material/Info";
-import styles from "./css/settings.button.module.css";
 
 export default function SettingsButton() {
   const [state, setState] = React.useState({
@@ -46,17 +45,20 @@ export default function SettingsButton() {
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
-              <EditNoteIcon className={styles.icon} />
+              <EditNoteIcon style={{ color: "lightgrey" }} />
             </ListItemIcon>
-            <ListItemText primary="Editor" />
+            <ListItemText style={{ color: "lightgrey" }} primary="Editor" />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
-              <FileCopyIcon className={styles.icon} />
+              <FileCopyIcon style={{ color: "lightgrey" }} />
             </ListItemIcon>
-            <ListItemText primary="Saved Files" />
+            <ListItemText
+              style={{ color: "lightgrey" }}
+              primary="Saved Files"
+            />
           </ListItemButton>
         </ListItem>
       </List>
@@ -65,7 +67,10 @@ export default function SettingsButton() {
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
-              <InfoIcon className={styles.icon} />
+              <InfoIcon
+                style={{ color: "lightgrey" }}
+                style={{ color: "lightgrey" }}
+              />
             </ListItemIcon>
             <ListItemText primary="Documentation & Help" />
           </ListItemButton>
@@ -81,7 +86,7 @@ export default function SettingsButton() {
           onClick={toggleDrawer("right", true)}
           style={{ color: "white" }}
         >
-          <SettingsIcon />
+          <SettingsIcon style={{ color: "lightgrey" }} />
         </Button>
         <Drawer
           anchor="right"

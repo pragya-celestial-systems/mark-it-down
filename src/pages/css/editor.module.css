@@ -8,6 +8,8 @@
 }
 
 #saveButton {
+  /* background-color: #F6B17A; */
+  color: lightgray;
   background-color: #7077a1;
   font-weight: 600;
 }
@@ -16,35 +18,7 @@
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  width: 90%;
+  width: 70%;
   margin: auto;
   margin-top: 2rem;
-}
-
-#codeArea,
-#previewArea {
-  margin: 1rem;
-  height: 70vh;
-  width: 40vw;
-  background: #7077a1;
-  padding: 1rem;
-  font-size: 1.1rem;
-}
-
-textarea {
-  resize: none;
-  color: lightgrey;
-}
-
-#codeArea:focus,
-#previewArea:focus {
-  outline: none;
-}
-
-#leftContainer,
-#rightContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
 }
