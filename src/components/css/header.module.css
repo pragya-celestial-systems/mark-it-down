@@ -1,0 +1,28 @@
+#header {
+  width: 100%;
+  padding: 1rem;
+  background-color: #424769;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+}
+
+#headerContent {
+  margin: auto;
+  width: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-decoration: none;
+}
+
+#settingsButton {
+  font-size: 1.5rem;
+  cursor: pointer;
+}

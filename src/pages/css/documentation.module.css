@@ -1,0 +1,14 @@
+#container {
+  width: 70%;
+  margin: 4rem auto auto auto;
+  color: lightgrey;
+}
+
+.horizontal_line {
+  border-color: grey;
+}
+
+.desc {
+  font-size: 1rem;
+  line-height: 2;
+}
