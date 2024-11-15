@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "./css/documentation.module.css";
+import MUIBreadCrumbs from "../components/MUIBreadCrumbs";
 
 function DocumentationPage() {
   return (
     <div id={styles.container}>
+      <MUIBreadCrumbs page="Documentation & Help" />
       <h1>Documentation & Help</h1>
       <hr className={styles.horizontal_line} />
       <p className={styles.desc}>
