@@ -12,3 +12,10 @@
   margin: 0;
   color: lightgrey;
 }
+
+#contextMenu {
+  background-color: white;
+  height: 100px;
+  width: 150px;
+  position: absolute;
+}
