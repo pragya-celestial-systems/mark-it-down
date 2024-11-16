@@ -1,0 +1,12 @@
+#container {
+  height: 90vh;
+  width: 100svw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#errorMessage {
+  width: 40%;
+  text-align: center;
+}
