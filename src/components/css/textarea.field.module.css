@@ -6,11 +6,11 @@
   overflow: hidden;
 }
 
-#codeArea,
-#previewArea {
+.codeArea,
+.previewArea {
   margin: 1rem;
   height: 70vh;
-  width: 34vw;
+  width: 100%;
   overflow: scroll;
   background: #7077a1;
   padding: 1rem;
@@ -31,4 +31,13 @@ textarea {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 100%;
+}
+
+#fileName {
+  background: transparent;
+  color: lightgrey;
+  font-size: 1.3rem;
+  border: none;
+  outline: none;
 }

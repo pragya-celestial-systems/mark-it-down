@@ -1,0 +1,29 @@
+#container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 2rem;
+  overflow: hidden;
+}
+
+#buttonsContainer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 45%;
+  overflow: scroll;
+  justify-content: space-between;
+}
+
+#verticalLine {
+  height: 70vh;
+  border: 2px solid lightgrey;
+}
+
+#previewContainer {
+  overflow: scroll;
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  height: 100%;
+}

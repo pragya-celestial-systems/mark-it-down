@@ -6,6 +6,7 @@ import EditorPage from "./pages/EditorPage";
 import ErrorPage from "./pages/ErrorPage";
 import DocumentationPage from "./pages/DocumentationPage";
 import { TextAreaContextProvider } from "./context/TextAreaContext";
+import SavedFilesPage from "./pages/SavedFilesPage";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/editor" element={<EditorPage />} />
           <Route path="/docs" element={<DocumentationPage />} />
+          <Route path="/saved" element={<SavedFilesPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </BrowserRouter>

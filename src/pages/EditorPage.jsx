@@ -49,8 +49,12 @@ function EditorPage() {
         </Button>
       </div>
       <main id={styles.mainContainer}>
-        <TextAreaField onClick={handleDownloadFile} isEditable={true} />
-        <TextAreaField onClick={handleDownloadFile} isEditable={false} />
+        <div id={styles.codeContainer}>
+          <TextAreaField onClick={handleDownloadFile} isEditable={true} />
+        </div>
+        <div id={styles.previewContainer}>
+          <TextAreaField onClick={handleDownloadFile} isEditable={false} />
+        </div>
       </main>
     </>
   );

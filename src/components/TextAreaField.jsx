@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styles from "./css/textarea.field.module.css";
 import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -9,11 +9,21 @@ function TextAreaField({ isEditable, title, onClick }) {
   const fileTitle = `untitled${isEditable ? ".md" : "-preview.html"}`;
   const codeAreaRef = useRef();
   const { value, setValue } = useTextAreaContext();
+  const [fileName, setFileName] = useState(title ? title : fileTitle);
+
+  function handleEditFileName(e) {
+    setFileName(e.target.value);
+  }
 
   return (
     <div id={styles.textAreaContainer}>
       <div className={styles.box}>
-        <h2>{title ? title : fileTitle}</h2>
+        <input
+          type="text"
+          value={fileName}
+          onChange={handleEditFileName}
+          id={styles.fileName}
+        />
         <Button
           style={{ background: "#7077a1" }}
           onClick={() => onClick(isEditable)}
@@ -28,10 +38,10 @@ function TextAreaField({ isEditable, title, onClick }) {
           ref={codeAreaRef}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          id={styles.codeArea}
+          className={styles.codeArea}
         ></textarea>
       ) : (
-        <div id={styles.previewArea}>
+        <div className={styles.previewArea}>
           <Markdown>{value}</Markdown>
         </div>
       )}
