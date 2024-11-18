@@ -24,9 +24,6 @@
 textarea {
   resize: none;
   color: lightgrey;
-}
-
-#codeArea:focus {
   outline: none;
 }
 

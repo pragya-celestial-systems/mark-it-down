@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import FileButton from "./FileButton";
 import styles from "./css/files.list.module.css";
 import TextAreaField from "./TextAreaField";
 import { useTextAreaContext } from "../context/TextAreaContext";
-import { Height } from "@mui/icons-material";
-import { width } from "@mui/system";
 
 function FilesList({ listItems }) {
-  const { value, setValue } = useTextAreaContext();
+  const { setValue } = useTextAreaContext();
 
   useEffect(() => {
     if (listItems && listItems.length > 0) {

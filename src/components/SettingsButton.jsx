@@ -14,11 +14,20 @@ import FileCopyIcon from "@mui/icons-material/FileCopy";
 import InfoIcon from "@mui/icons-material/Info";
 import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import { useToggleContext } from "../context/ToggleContext";
+import CropSquareIcon from "@mui/icons-material/CropSquare";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 export default function SettingsButton() {
+  const { toggleDownload, setToggleDownload } = useToggleContext();
+
   const [state, setState] = React.useState({
     right: false,
   });
+
+  const handleToggleDownload = () => {
+    setToggleDownload((prevState) => !prevState);
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -75,6 +84,21 @@ export default function SettingsButton() {
                 primary="Saved Files"
               />
             </Link>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleToggleDownload}>
+            <ListItemIcon>
+              {toggleDownload ? (
+                <CheckBoxIcon style={{ color: "lightgrey" }} />
+              ) : (
+                <CropSquareIcon style={{ color: "lightgrey" }} />
+              )}
+            </ListItemIcon>
+            <ListItemText
+              style={{ color: "lightgrey" }}
+              primary={toggleDownload ? "Disable Download" : "Enable Download"}
+            />
           </ListItemButton>
         </ListItem>
       </List>

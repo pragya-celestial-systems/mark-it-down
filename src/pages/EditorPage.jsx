@@ -4,27 +4,24 @@ import styles from "./css/editor.module.css";
 import { Button } from "@mui/material";
 import TextAreaField from "../components/TextAreaField";
 import { useTextAreaContext } from "../context/TextAreaContext";
+import { saveFile } from "../database/indexedDB";
+import { useDatabaseContext } from "../context/DatabaseContext";
 
 function EditorPage() {
-  const { value, setValue } = useTextAreaContext();
+  const { value } = useTextAreaContext();
+  const {database} = useDatabaseContext();
 
   function handleSaveFile() {
-    if (!value) {
-      alert("Can't save empty file.");
-      return;
+    try {
+      if (!value) {
+        alert("Can't save empty file.");
+        return;
+      }
+  
+      saveFile(database);  
+    } catch (error) {
+      console.log(error.message);
     }
-
-    const files = JSON.parse(localStorage.getItem("files")) || [];
-    const fileData = {
-      id: files.length,
-      readmeFile: value,
-    };
-
-    files.push(fileData);
-    localStorage.setItem("files", JSON.stringify(files));
-
-    // clear the text field
-    setValue("");
   }
 
   function handleDownloadFile(isEditable) {
