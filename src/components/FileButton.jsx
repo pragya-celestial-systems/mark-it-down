@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styles from "./css/file.button.module.css";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useTextAreaContext } from "../context/TextAreaContext";
+import { useNavigate } from "react-router-dom";
+import { deleteFile, getAllFiles } from "../database/indexedDB";
+import { useDatabaseContext } from "../context/DatabaseContext";
 
 function FileButton({ fileData }) {
   const { setValue } = useTextAreaContext();
   const [displayMenu, setDisplayMenu] = useState(false);
   const [menuStyles, setMenuStyles] = useState({});
+  const { database, setFiles } = useDatabaseContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     function handleCloseMenu() {
@@ -30,6 +37,23 @@ function FileButton({ fileData }) {
     setMenuStyles({ top: clientY, left: clientX });
   }
 
+  function handleEditFile() {
+    navigate(`/editor?id=${fileData.id}`);
+  }
+
+  async function handleDeleteFile() {
+    try {
+      const response = await deleteFile(database, fileData.id);
+
+      if (response.status == 200) {
+        const data = await getAllFiles(database);
+        setFiles(data);
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
   return (
     <div
       id={styles.container}
@@ -43,7 +67,12 @@ function FileButton({ fileData }) {
           id={styles.contextMenu}
           onClick={(e) => e.stopPropagation()}
         >
-          Hello world
+          <p className={styles.option} onClick={handleEditFile}>
+            <EditIcon /> Edit
+          </p>
+          <p className={styles.option} onClick={handleDeleteFile}>
+            <DeleteIcon /> Delete
+          </p>
         </div>
       )}
     </div>

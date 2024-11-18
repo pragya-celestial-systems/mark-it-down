@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import MUIBreadCrumbs from "../components/MUIBreadCrumbs";
 import styles from "./css/saved.files.module.css";
 import FilesList from "../components/FilesList";
@@ -8,16 +8,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function SavedFilesPage() {
-  const [filesData, setFilesData] = useState([]);
+  const { files, setFiles } = useDatabaseContext();
   const { database } = useDatabaseContext();
 
   async function fetchFiles(db) {
     try {
       const data = await getAllFiles(db);
-      setFilesData(data);
-      toast.success("Files fetched successfully");
+      setFiles(data);
     } catch (error) {
-      toast.error("Error fetching files.");
+      console.error(error);
     }
   }
 
@@ -30,7 +29,7 @@ function SavedFilesPage() {
   return (
     <div id={styles.container}>
       <MUIBreadCrumbs page="Saved files" />
-      <FilesList listItems={filesData} />
+      <FilesList listItems={files} />
       <ToastContainer />
     </div>
   );

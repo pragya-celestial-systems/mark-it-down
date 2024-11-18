@@ -58,7 +58,7 @@ export default function SettingsButton() {
             <ListItemIcon>
               <HomeIcon style={{ color: "lightgrey" }} />
             </ListItemIcon>
-            <Link to="/">
+            <Link to="/" style={{ textDecoration: "none" }}>
               <ListItemText style={{ color: "lightgrey" }} primary="Home" />
             </Link>
           </ListItemButton>
@@ -68,7 +68,7 @@ export default function SettingsButton() {
             <ListItemIcon>
               <EditNoteIcon style={{ color: "lightgrey" }} />
             </ListItemIcon>
-            <Link to="/editor">
+            <Link to="/editor" style={{ textDecoration: "none" }}>
               <ListItemText style={{ color: "lightgrey" }} primary="Editor" />
             </Link>
           </ListItemButton>
@@ -78,7 +78,7 @@ export default function SettingsButton() {
             <ListItemIcon>
               <FileCopyIcon style={{ color: "lightgrey" }} />
             </ListItemIcon>
-            <Link to="/saved">
+            <Link to="/saved" style={{ textDecoration: "none" }}>
               <ListItemText
                 style={{ color: "lightgrey" }}
                 primary="Saved Files"
@@ -109,7 +109,7 @@ export default function SettingsButton() {
             <ListItemIcon>
               <InfoIcon style={{ color: "lightgrey" }} />
             </ListItemIcon>
-            <Link to="/docs">
+            <Link to="/docs" style={{ textDecoration: "none" }}>
               <ListItemText
                 style={{ color: "lightgrey" }}
                 primary="Documentation & Help"

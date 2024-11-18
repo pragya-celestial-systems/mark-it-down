@@ -26,7 +26,7 @@ export function saveFile(db, fileData) {
   const addRequest = objectStore.add(fileData, fileData.id);
 
   addRequest.onsuccess = function (event) {
-    console.log(event, "data added successfully.");
+    console.log("data added successfully.");
   };
 
   let getRequest = objectStore.get(1);
@@ -52,8 +52,44 @@ export function getAllFiles(db) {
     };
 
     request.onerror = (err) => {
-      console.error(`Error to get all files: ${err}`);
+      console.error(err);
       reject(err);
+    };
+  });
+}
+
+export function getFile(db, id) {
+  if (!db) return;
+
+  return new Promise((resolve, reject) => {
+    const transaction = db?.transaction("files", "readwrite");
+    const objectStore = transaction.objectStore("files");
+    const request = objectStore.get(id);
+
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
+
+    request.onerror = (err) => {
+      reject(err);
+    };
+  });
+}
+
+export function deleteFile(db, id) {
+  if (!db) return;
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction("files", "readwrite");
+    const objectStore = transaction.objectStore("files");
+    const request = objectStore.delete(id);
+
+    request.onsuccess = () => {
+      resolve({ status: 200 });
+    };
+
+    request.onerror = (err) => {
+      reject({ status: 500 });
     };
   });
 }

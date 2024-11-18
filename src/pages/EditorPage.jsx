@@ -1,17 +1,51 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MUIBreadCrumbs from "../components/MUIBreadCrumbs";
 import styles from "./css/editor.module.css";
 import { Button } from "@mui/material";
 import TextAreaField from "../components/TextAreaField";
 import { useTextAreaContext } from "../context/TextAreaContext";
-import { saveFile } from "../database/indexedDB";
+import { getFile, saveFile } from "../database/indexedDB";
 import { useDatabaseContext } from "../context/DatabaseContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSearchParams } from "react-router-dom";
 
 function EditorPage() {
   const { value, setValue, fileName, setFileName } = useTextAreaContext();
   const { database } = useDatabaseContext();
+  const [fileData, setFileData] = useState({});
+  const [query] = useSearchParams();
+  const id = query.get("id");
+
+  useEffect(() => {
+    if (id) {
+      getFileData(database, id);
+    } else {
+      setValue("");
+      setFileName("untitled");
+    }
+
+    console.log(fileData);
+  }, [id]);
+
+  async function getFileData(database, id) {
+    try {
+      const data = await getFile(database, id);
+      console.log(data);
+      if (data) {
+        console.log("data");
+        setFileData(data);
+        setValue(data.readmeFile || "");
+        setFileName(data.fileName || "untitled");
+        toast.success("Editing file.");
+      } else {
+        toast.error("File not found.");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Error fetching file data.");
+    }
+  }
 
   function generateId() {
     const timestamp = Date.now();
@@ -47,7 +81,7 @@ function EditorPage() {
       toast.success("File saved successfully");
     } catch (error) {
       console.log(error.message);
-      toast.error("Something went wrong");
+      toast.error("Couldn't save file");
     }
   }
 

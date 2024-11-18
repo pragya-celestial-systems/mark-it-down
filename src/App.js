@@ -15,16 +15,16 @@ import { useDatabaseContext } from "./context/DatabaseContext";
 function App() {
   const { setDatabase } = useDatabaseContext();
 
-  useEffect(() => {
-    async function initializeDB() {
-      try {
-        const db = await initDatabase();
-        setDatabase(db);
-      } catch (error) {
-        console.error(error);
-      }
+  async function initializeDB() {
+    try {
+      const db = await initDatabase();
+      setDatabase(db);
+    } catch (error) {
+      console.error(error);
     }
+  }
 
+  useEffect(() => {
     initializeDB();
   }, []);
 
