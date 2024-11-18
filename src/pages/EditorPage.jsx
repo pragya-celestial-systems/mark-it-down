@@ -9,7 +9,13 @@ import { useDatabaseContext } from "../context/DatabaseContext";
 
 function EditorPage() {
   const { value } = useTextAreaContext();
-  const {database} = useDatabaseContext();
+  const { database } = useDatabaseContext();
+
+  function generateId() {
+    const timestamp = Date.now();
+    const number = Math.random() * 100000;
+    return `${number}-${timestamp}`;
+  }
 
   function handleSaveFile() {
     try {
@@ -17,8 +23,15 @@ function EditorPage() {
         alert("Can't save empty file.");
         return;
       }
-  
-      saveFile(database);  
+
+      const fileData = {
+        id: generateId(),
+        readmeFile: value,
+      };
+
+      if (database) {
+        saveFile(database, fileData);
+      }
     } catch (error) {
       console.log(error.message);
     }

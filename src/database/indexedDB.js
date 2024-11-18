@@ -20,16 +20,16 @@ export function initDatabase() {
   });
 }
 
-export function saveFile(db) {
+export function saveFile(db, fileData) {
   const transaction = db.transaction("files", "readwrite");
   const objectStore = transaction.objectStore("files");
 
-  const data = {
-    id: 0,
-    readmeFile: "## title - list **bold text** - this is *italic* text.",
-  };
-  const addRequest = objectStore.add(data, data.id);
-  console.log(addRequest);
+  // const fileData = {
+  //   id: 0,
+  //   readmeFile: "## title - list **bold text** - this is *italic* text.",
+  // };
+
+  const addRequest = objectStore.add(fileData, fileData.id);
 
   addRequest.onsuccess = function (event) {
     // Data added successfully
@@ -40,7 +40,6 @@ export function saveFile(db) {
 
   getRequest.onsuccess = function (event) {
     let result = event.target.result;
-    console.log(result);
   };
 }
 
@@ -49,10 +48,7 @@ export function getAllFiles(db) {
 
   request.onsuccess = () => {
     const students = request.result;
-
-    console.log("Got all the students");
     console.table(students);
-
     return students;
   };
 
