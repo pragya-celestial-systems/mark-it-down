@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./css/textarea.field.module.css";
 import { Button } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
@@ -7,11 +7,15 @@ import Markdown from "react-markdown";
 import { useToggleContext } from "../context/ToggleContext";
 
 function TextAreaField({ isEditable, title, onClick }) {
-  const fileTitle = `untitled${isEditable ? ".md" : "-preview.html"}`;
   const codeAreaRef = useRef();
-  const { value, setValue } = useTextAreaContext();
-  const [fileName, setFileName] = useState(title ? title : fileTitle);
+  const { value, setValue, fileName, setFileName } = useTextAreaContext();
   const { toggleDownload } = useToggleContext();
+
+  useEffect(() => {
+    if (title) {
+      setFileName(title);
+    }
+  }, []);
 
   function handleEditFileName(e) {
     setFileName(e.target.value);
@@ -20,12 +24,16 @@ function TextAreaField({ isEditable, title, onClick }) {
   return (
     <div id={styles.textAreaContainer}>
       <div className={styles.box}>
-        <input
-          type="text"
-          value={fileName}
-          onChange={handleEditFileName}
-          id={styles.fileName}
-        />
+        {isEditable ? (
+          <input
+            type="text"
+            value={fileName}
+            onChange={handleEditFileName}
+            className={styles.fileName}
+          />
+        ) : (
+          <p className={styles.fileName}>{fileName} Preview</p>
+        )}
         {toggleDownload && (
           <Button
             style={{ background: "#7077a1" }}

@@ -6,9 +6,11 @@ import TextAreaField from "../components/TextAreaField";
 import { useTextAreaContext } from "../context/TextAreaContext";
 import { saveFile } from "../database/indexedDB";
 import { useDatabaseContext } from "../context/DatabaseContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function EditorPage() {
-  const { value } = useTextAreaContext();
+  const { value, setValue, fileName, setFileName } = useTextAreaContext();
   const { database } = useDatabaseContext();
 
   function generateId() {
@@ -20,20 +22,32 @@ function EditorPage() {
   function handleSaveFile() {
     try {
       if (!value) {
-        alert("Can't save empty file.");
+        toast.error("Can't save an empty file.");
+        return;
+      }
+
+      if (!fileName || fileName.includes(" ")) {
+        toast.error("File Name can't include empty space.");
         return;
       }
 
       const fileData = {
         id: generateId(),
         readmeFile: value,
+        fileName,
       };
 
       if (database) {
         saveFile(database, fileData);
       }
+
+      // clear the input fields
+      setFileName("untitled");
+      setValue("");
+      toast.success("File saved successfully");
     } catch (error) {
       console.log(error.message);
+      toast.error("Something went wrong");
     }
   }
 
@@ -66,6 +80,7 @@ function EditorPage() {
           <TextAreaField onClick={handleDownloadFile} isEditable={false} />
         </div>
       </main>
+      <ToastContainer />
     </>
   );
 }

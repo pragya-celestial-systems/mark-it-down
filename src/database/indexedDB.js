@@ -23,16 +23,9 @@ export function initDatabase() {
 export function saveFile(db, fileData) {
   const transaction = db.transaction("files", "readwrite");
   const objectStore = transaction.objectStore("files");
-
-  // const fileData = {
-  //   id: 0,
-  //   readmeFile: "## title - list **bold text** - this is *italic* text.",
-  // };
-
   const addRequest = objectStore.add(fileData, fileData.id);
 
   addRequest.onsuccess = function (event) {
-    // Data added successfully
     console.log(event, "data added successfully.");
   };
 
@@ -40,11 +33,16 @@ export function saveFile(db, fileData) {
 
   getRequest.onsuccess = function (event) {
     let result = event.target.result;
+    console.log(result);
   };
 }
 
 export function getAllFiles(db) {
-  const request = db.transaction("files").objectStore("files").getAll();
+  if (!db) {
+    return;
+  }
+
+  const request = db?.transaction("files").objectStore("files").getAll();
 
   request.onsuccess = () => {
     const students = request.result;

@@ -1,15 +1,19 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import MUIBreadCrumbs from "../components/MUIBreadCrumbs";
 import styles from "./css/saved.files.module.css";
 import FilesList from "../components/FilesList";
+import { getAllFiles } from "../database/indexedDB";
+import { useDatabaseContext } from "../context/DatabaseContext";
 
 function SavedFilesPage() {
   const [filesData, setFilesData] = useState([]);
+  const { database } = useDatabaseContext();
 
-  useLayoutEffect(() => {
-    const files = JSON.parse(localStorage.getItem("files"));
-    setFilesData(files);
-  }, []);
+  useEffect(() => {
+    if (database) {
+      getAllFiles(database);
+    }
+  }, [database]);
 
   return (
     <div id={styles.container}>

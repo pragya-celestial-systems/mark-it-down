@@ -27,3 +27,15 @@
   width: 45%;
   height: 100%;
 }
+
+.messageContainer {
+  height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+#editorRoute {
+  color: lightgrey;
+}

@@ -13,7 +13,7 @@ import { initDatabase } from "./database/indexedDB";
 import { useDatabaseContext } from "./context/DatabaseContext";
 
 function App() {
-  const { setDatabase } = useDatabaseContext();
+  const { database, setDatabase } = useDatabaseContext();
 
   useEffect(() => {
     async function initializeDB() {
