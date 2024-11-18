@@ -39,18 +39,21 @@ export function saveFile(db, fileData) {
 
 export function getAllFiles(db) {
   if (!db) {
-    return;
+    return Promise.resolve([]);
   }
 
-  const request = db?.transaction("files").objectStore("files").getAll();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction("files");
+    const objectStore = transaction.objectStore("files");
+    const request = objectStore.getAll();
 
-  request.onsuccess = () => {
-    const students = request.result;
-    console.table(students);
-    return students;
-  };
+    request.onsuccess = () => {
+      resolve(request.result);
+    };
 
-  request.onerror = (err) => {
-    console.error(`Error to get all students: ${err}`);
-  };
+    request.onerror = (err) => {
+      console.error(`Error to get all files: ${err}`);
+      reject(err);
+    };
+  });
 }

@@ -12,6 +12,8 @@ function FilesList({ listItems }) {
     if (listItems && listItems.length > 0) {
       setValue(listItems[0].readmeFile);
     }
+
+    console.log(listItems.length);
   }, [listItems]);
 
   return (
@@ -30,12 +32,12 @@ function FilesList({ listItems }) {
       </div>
       <div id={styles.verticalLine}></div>
       <div id={styles.previewContainer}>
-        {listItems || listItems.length <= 0 ? (
+        {listItems.length <= 0 ? (
           <div className={styles.messageContainer}>
             <h2>No Preview Available.</h2>
           </div>
         ) : (
-          <TextAreaField isEditable={false} title="File-0" />
+          <TextAreaField isEditable={false} />
         )}
       </div>
     </div>

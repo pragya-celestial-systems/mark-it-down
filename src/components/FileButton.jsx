@@ -36,7 +36,7 @@ function FileButton({ fileData }) {
       onClick={handleDisplayPreview}
       onContextMenu={handleDisplayContextMenu}
     >
-      <h3 id={styles.fileName}>{`File-${fileData.id}`}</h3>
+      <h3 id={styles.fileName}>{fileData.fileName || "Untitled File"}</h3>
       {displayMenu && (
         <div
           style={menuStyles}
