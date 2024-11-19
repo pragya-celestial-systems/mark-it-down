@@ -12,11 +12,22 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import SettingsIcon from "@mui/icons-material/Settings";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
 import InfoIcon from "@mui/icons-material/Info";
+import { Link } from "react-router-dom";
+import HomeIcon from "@mui/icons-material/Home";
+import { useToggleContext } from "../context/ToggleContext";
+import CropSquareIcon from "@mui/icons-material/CropSquare";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
 
 export default function SettingsButton() {
+  const { toggleDownload, setToggleDownload } = useToggleContext();
+
   const [state, setState] = React.useState({
     right: false,
   });
+
+  const handleToggleDownload = () => {
+    setToggleDownload((prevState) => !prevState);
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -45,9 +56,21 @@ export default function SettingsButton() {
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
+              <HomeIcon style={{ color: "lightgrey" }} />
+            </ListItemIcon>
+            <Link to="/">
+              <ListItemText style={{ color: "lightgrey" }} primary="Home" />
+            </Link>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton>
+            <ListItemIcon>
               <EditNoteIcon style={{ color: "lightgrey" }} />
             </ListItemIcon>
-            <ListItemText style={{ color: "lightgrey" }} primary="Editor" />
+            <Link to="/editor">
+              <ListItemText style={{ color: "lightgrey" }} primary="Editor" />
+            </Link>
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
@@ -55,9 +78,26 @@ export default function SettingsButton() {
             <ListItemIcon>
               <FileCopyIcon style={{ color: "lightgrey" }} />
             </ListItemIcon>
+            <Link to="/saved">
+              <ListItemText
+                style={{ color: "lightgrey" }}
+                primary="Saved Files"
+              />
+            </Link>
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton onClick={handleToggleDownload}>
+            <ListItemIcon>
+              {toggleDownload ? (
+                <CheckBoxIcon style={{ color: "lightgrey" }} />
+              ) : (
+                <CropSquareIcon style={{ color: "lightgrey" }} />
+              )}
+            </ListItemIcon>
             <ListItemText
               style={{ color: "lightgrey" }}
-              primary="Saved Files"
+              primary={toggleDownload ? "Disable Download" : "Enable Download"}
             />
           </ListItemButton>
         </ListItem>
@@ -67,12 +107,14 @@ export default function SettingsButton() {
         <ListItem disablePadding>
           <ListItemButton>
             <ListItemIcon>
-              <InfoIcon
-                style={{ color: "lightgrey" }}
-                style={{ color: "lightgrey" }}
-              />
+              <InfoIcon style={{ color: "lightgrey" }} />
             </ListItemIcon>
-            <ListItemText primary="Documentation & Help" />
+            <Link to="/docs">
+              <ListItemText
+                style={{ color: "lightgrey" }}
+                primary="Documentation & Help"
+              />
+            </Link>
           </ListItemButton>
         </ListItem>
       </List>

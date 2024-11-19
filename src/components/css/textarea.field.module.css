@@ -6,23 +6,24 @@
   overflow: hidden;
 }
 
-#codeArea,
-#previewArea {
+.codeArea,
+.previewArea {
   margin: 1rem;
   height: 70vh;
-  width: 34vw;
+  width: 100%;
   overflow: scroll;
   background: #7077a1;
   padding: 1rem;
   font-size: 1rem;
 }
 
+.previewArea {
+  user-select: none;
+}
+
 textarea {
   resize: none;
   color: lightgrey;
-}
-
-#codeArea:focus {
   outline: none;
 }
 
@@ -31,4 +32,14 @@ textarea {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 100%;
+}
+
+.fileName {
+  margin: 0;
+  background: transparent;
+  color: lightgrey;
+  font-size: 1.3rem;
+  border: none;
+  outline: none;
 }
