@@ -26,7 +26,14 @@ function FileButton({ fileData }) {
     };
   }, []);
 
+  function addQueryParam(id) {
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set("id", fileData.id);
+    window.history.pushState({}, "", newUrl);
+  }
+
   function handleDisplayPreview() {
+    addQueryParam();
     setValue(fileData.readmeFile);
   }
 

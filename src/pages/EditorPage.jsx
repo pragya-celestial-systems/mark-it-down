@@ -70,7 +70,7 @@ function EditorPage() {
 
       if (database) {
         if (isEditing) {
-          // Don't update the id
+          // Don't update the id (since user is updating the existing data)
           fileData.id = id;
 
           // update the existing file
@@ -95,22 +95,14 @@ function EditorPage() {
     }
   }
 
-  function handleDownloadFile(isEditable) {
-    if (isEditable) {
-      console.log("save as readme.md");
-    } else {
-      console.log("save as index.html");
-    }
-  }
-
   return (
     <>
       <div id={styles.topContainer}>
         <MUIBreadCrumbs page="Editor" />
         <Button
-          onClick={handleSaveFile}
           style={{ background: "#7077a1" }}
           variant="contained"
+          onClick={handleSaveFile}
           id={styles.saveButton}
         >
           Save
@@ -118,18 +110,10 @@ function EditorPage() {
       </div>
       <main id={styles.mainContainer}>
         <div id={styles.codeContainer}>
-          <TextAreaField
-            onClick={handleDownloadFile}
-            isEditable={true}
-            isEditing={isEditing}
-          />
+          <TextAreaField isEditable={true} isEditing={isEditing} />
         </div>
         <div id={styles.previewContainer}>
-          <TextAreaField
-            onClick={handleDownloadFile}
-            isEditable={false}
-            isEditing={isEditing}
-          />
+          <TextAreaField isEditable={false} isEditing={isEditing} />
         </div>
       </main>
       <ToastContainer />

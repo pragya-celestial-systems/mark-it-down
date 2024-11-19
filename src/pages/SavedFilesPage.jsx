@@ -21,11 +21,23 @@ function SavedFilesPage() {
     }
   }
 
+  function addQueryParam(fileData) {
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set("id", fileData.id);
+    window.history.pushState({}, "", newUrl);
+  }
+
   useEffect(() => {
     if (database) {
       fetchFiles(database);
     }
   }, [database]);
+
+  useEffect(() => {
+    if (files.length > 0) {
+      addQueryParam(files[0]);
+    }
+  }, [files]);
 
   return (
     <div id={styles.container}>

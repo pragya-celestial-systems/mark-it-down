@@ -6,8 +6,9 @@ import { useTextAreaContext } from "../context/TextAreaContext";
 import Markdown from "react-markdown";
 import { useToggleContext } from "../context/ToggleContext";
 
-function TextAreaField({ isEditable, title, onClick, isEditing = false }) {
+function TextAreaField({ isEditable, title, isEditing = false }) {
   const codeAreaRef = useRef();
+  const previewRef = useRef();
   const { value, setValue, fileName, setFileName } = useTextAreaContext();
   const { toggleDownload } = useToggleContext();
 
@@ -21,6 +22,30 @@ function TextAreaField({ isEditable, title, onClick, isEditing = false }) {
     if (!isEditing) {
       setFileName(e.target.value);
     }
+  }
+
+  function handleDownloadFile() {
+    let extension = isEditable ? "md" : "html";
+    const mimeType = extension === "md" ? "text/markdown" : "text/html";
+
+    let contentToDownload;
+
+    if (mimeType === "text/html") {
+      contentToDownload = previewRef.current?.innerHTML || "No content";
+    } else {
+      contentToDownload = value;
+    }
+
+    const blob = new Blob([contentToDownload], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${fileName}.${extension}`;
+    link.click();
+
+    // Clean up
+    URL.revokeObjectURL(url);
   }
 
   return (
@@ -41,7 +66,7 @@ function TextAreaField({ isEditable, title, onClick, isEditing = false }) {
         {toggleDownload && (
           <Button
             style={{ background: "#7077a1" }}
-            onClick={() => onClick(isEditable)}
+            onClick={handleDownloadFile}
             variant="contained"
             type="button"
           >
@@ -57,7 +82,7 @@ function TextAreaField({ isEditable, title, onClick, isEditing = false }) {
           className={styles.codeArea}
         ></textarea>
       ) : (
-        <div className={styles.previewArea}>
+        <div className={styles.previewArea} ref={previewRef}>
           <Markdown>{value}</Markdown>
         </div>
       )}
