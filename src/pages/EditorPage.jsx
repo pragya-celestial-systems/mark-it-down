@@ -1,40 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import MUIBreadCrumbs from "../components/MUIBreadCrumbs";
 import styles from "./css/editor.module.css";
 import { Button } from "@mui/material";
 import TextAreaField from "../components/TextAreaField";
 import { useTextAreaContext } from "../context/TextAreaContext";
-import { getFile, saveFile } from "../database/indexedDB";
+import { getFile, saveFile, updateFile } from "../database/indexedDB";
 import { useDatabaseContext } from "../context/DatabaseContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function EditorPage() {
   const { value, setValue, fileName, setFileName } = useTextAreaContext();
   const { database } = useDatabaseContext();
-  const [fileData, setFileData] = useState({});
   const [query] = useSearchParams();
   const id = query.get("id");
+  const [params] = useSearchParams();
+  const isEditing = params.get("isEditing");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (id) {
-      getFileData(database, id);
+      getFileData(id);
     } else {
       setValue("");
       setFileName("untitled");
     }
-
-    console.log(fileData);
   }, [id]);
 
-  async function getFileData(database, id) {
+  async function getFileData(id) {
     try {
-      const data = await getFile(database, id);
-      console.log(data);
+      const data = await getFile(id);
       if (data) {
-        console.log("data");
-        setFileData(data);
         setValue(data.readmeFile || "");
         setFileName(data.fileName || "untitled");
         toast.success("Editing file.");
@@ -65,20 +62,33 @@ function EditorPage() {
         return;
       }
 
-      const fileData = {
+      let fileData = {
         id: generateId(),
         readmeFile: value,
         fileName,
       };
 
       if (database) {
-        saveFile(database, fileData);
-      }
+        if (isEditing) {
+          // Don't update the id
+          fileData.id = id;
 
-      // clear the input fields
-      setFileName("untitled");
-      setValue("");
-      toast.success("File saved successfully");
+          // update the existing file
+          updateFile(fileData);
+          toast.success("File updated successfully");
+
+          setTimeout(() => {
+            navigate("/saved");
+          }, 1000);
+        } else {
+          saveFile(database, fileData);
+
+          // clear the input fields
+          setFileName("untitled");
+          setValue("");
+          toast.success("File saved successfully");
+        }
+      }
     } catch (error) {
       console.log(error.message);
       toast.error("Couldn't save file");
@@ -108,10 +118,18 @@ function EditorPage() {
       </div>
       <main id={styles.mainContainer}>
         <div id={styles.codeContainer}>
-          <TextAreaField onClick={handleDownloadFile} isEditable={true} />
+          <TextAreaField
+            onClick={handleDownloadFile}
+            isEditable={true}
+            isEditing={isEditing}
+          />
         </div>
         <div id={styles.previewContainer}>
-          <TextAreaField onClick={handleDownloadFile} isEditable={false} />
+          <TextAreaField
+            onClick={handleDownloadFile}
+            isEditable={false}
+            isEditing={isEditing}
+          />
         </div>
       </main>
       <ToastContainer />

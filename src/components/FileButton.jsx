@@ -38,14 +38,14 @@ function FileButton({ fileData }) {
   }
 
   function handleEditFile() {
-    navigate(`/editor?id=${fileData.id}`);
+    navigate(`/editor?id=${fileData.id}&isEditing=true`);
   }
 
   async function handleDeleteFile() {
     try {
       const response = await deleteFile(database, fileData.id);
 
-      if (response.status == 200) {
+      if (response.status === 200) {
         const data = await getAllFiles(database);
         setFiles(data);
       }

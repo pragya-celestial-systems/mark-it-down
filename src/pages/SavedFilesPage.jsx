@@ -16,6 +16,7 @@ function SavedFilesPage() {
       const data = await getAllFiles(db);
       setFiles(data);
     } catch (error) {
+      toast.error("Error fetching files");
       console.error(error);
     }
   }

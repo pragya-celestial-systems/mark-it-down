@@ -58,22 +58,27 @@ export function getAllFiles(db) {
   });
 }
 
-export function getFile(db, id) {
-  if (!db) return;
+export function getFile(id) {
+  // let db;
+  const result = initDatabase().then((db) => {
+    // db = database
+    if (!db) return;
+    return new Promise((resolve, reject) => {
+      const transaction = db?.transaction("files", "readwrite");
+      const objectStore = transaction.objectStore("files");
+      const request = objectStore.get(id);
 
-  return new Promise((resolve, reject) => {
-    const transaction = db?.transaction("files", "readwrite");
-    const objectStore = transaction.objectStore("files");
-    const request = objectStore.get(id);
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
 
-    request.onsuccess = () => {
-      resolve(request.result);
-    };
-
-    request.onerror = (err) => {
-      reject(err);
-    };
+      request.onerror = (err) => {
+        reject(err);
+      };
+    });
   });
+
+  return result;
 }
 
 export function deleteFile(db, id) {
@@ -92,4 +97,24 @@ export function deleteFile(db, id) {
       reject({ status: 500 });
     };
   });
+}
+
+export async function updateFile(fileData) {
+  try {
+    const db = await initDatabase();
+    const transaction = db.transaction("files", "readwrite");
+    const objectStore = transaction.objectStore("files");
+    const request = objectStore.put(fileData, fileData.id);
+
+    request.onsuccess = () => {
+      console.log("file updated");
+    };
+
+    request.onerror = (err) => {
+      console.log(err.message);
+    };
+  } catch (error) {
+    console.log(error);
+    throw new Error("Couldn't update file");
+  }
 }

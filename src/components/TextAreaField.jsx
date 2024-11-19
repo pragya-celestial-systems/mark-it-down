@@ -6,7 +6,7 @@ import { useTextAreaContext } from "../context/TextAreaContext";
 import Markdown from "react-markdown";
 import { useToggleContext } from "../context/ToggleContext";
 
-function TextAreaField({ isEditable, title, onClick }) {
+function TextAreaField({ isEditable, title, onClick, isEditing = false }) {
   const codeAreaRef = useRef();
   const { value, setValue, fileName, setFileName } = useTextAreaContext();
   const { toggleDownload } = useToggleContext();
@@ -18,7 +18,9 @@ function TextAreaField({ isEditable, title, onClick }) {
   }, []);
 
   function handleEditFileName(e) {
-    setFileName(e.target.value);
+    if (!isEditing) {
+      setFileName(e.target.value);
+    }
   }
 
   return (
@@ -30,10 +32,12 @@ function TextAreaField({ isEditable, title, onClick }) {
             value={fileName}
             onChange={handleEditFileName}
             className={styles.fileName}
+            readOnly={!isEditable}
           />
         ) : (
           <p className={styles.fileName}>{fileName} Preview</p>
         )}
+
         {toggleDownload && (
           <Button
             style={{ background: "#7077a1" }}
