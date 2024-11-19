@@ -11,6 +11,7 @@ import SavedFilesPage from "./pages/SavedFilesPage";
 import { useEffect } from "react";
 import { initDatabase } from "./database/indexedDB";
 import { useDatabaseContext } from "./context/DatabaseContext";
+import PreviewPage from "./pages/PreviewPage";
 
 function App() {
   const { setDatabase } = useDatabaseContext();
@@ -38,6 +39,7 @@ function App() {
             <Route path="/editor" element={<EditorPage />} />
             <Route path="/docs" element={<DocumentationPage />} />
             <Route path="/saved" element={<SavedFilesPage />} />
+            <Route path="/preview" element={<PreviewPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>

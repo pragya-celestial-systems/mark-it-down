@@ -6,6 +6,7 @@ import { useTextAreaContext } from "../context/TextAreaContext";
 import { useNavigate } from "react-router-dom";
 import { deleteFile, getAllFiles } from "../database/indexedDB";
 import { useDatabaseContext } from "../context/DatabaseContext";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 function FileButton({ fileData }) {
   const { setValue } = useTextAreaContext();
@@ -61,6 +62,10 @@ function FileButton({ fileData }) {
     }
   }
 
+  function handleOpenPreviewPage() {
+    navigate(`/preview?id=${fileData.id}`);
+  }
+
   return (
     <div
       id={styles.container}
@@ -75,10 +80,13 @@ function FileButton({ fileData }) {
           onClick={(e) => e.stopPropagation()}
         >
           <p className={styles.option} onClick={handleEditFile}>
-            <EditIcon /> Edit
+            <EditIcon style={{ marginRight: "5px" }} /> Edit
           </p>
           <p className={styles.option} onClick={handleDeleteFile}>
-            <DeleteIcon /> Delete
+            <DeleteIcon style={{ marginRight: "5px" }} /> Delete
+          </p>
+          <p className={styles.option} onClick={handleOpenPreviewPage}>
+            <VisibilityIcon style={{ marginRight: "5px" }} /> See Preview
           </p>
         </div>
       )}

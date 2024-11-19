@@ -25,7 +25,6 @@ export function initDatabase() {
   });
 }
 
-
 export function saveFile(db, fileData) {
   const transaction = db.transaction("files", "readwrite");
   const objectStore = transaction.objectStore("files");
@@ -39,7 +38,6 @@ export function saveFile(db, fileData) {
 
   getRequest.onsuccess = function (event) {
     let result = event.target.result;
-    console.log(result);
   };
 }
 

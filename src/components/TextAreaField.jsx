@@ -62,17 +62,15 @@ function TextAreaField({ isEditable, title, isEditing = false }) {
         ) : (
           <p className={styles.fileName}>{fileName} Preview</p>
         )}
-
-        {toggleDownload && (
-          <Button
-            style={{ background: "#7077a1" }}
-            onClick={handleDownloadFile}
-            variant="contained"
-            type="button"
-          >
-            <DownloadIcon />
-          </Button>
-        )}
+        <Button
+          style={{ background: "#7077a1" }}
+          onClick={handleDownloadFile}
+          variant="contained"
+          type="button"
+          disabled={toggleDownload}
+        >
+          <DownloadIcon />
+        </Button>
       </div>
       {isEditable ? (
         <textarea
