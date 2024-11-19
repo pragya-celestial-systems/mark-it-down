@@ -5,11 +5,12 @@ export function initDatabase() {
     request.onupgradeneeded = (e) => {
       const db = e.target.result;
 
+      // Delete the existing store to avoid errors in the deployed version
       if (db.objectStoreNames.contains("files")) {
         db.deleteObjectStore("files");
       }
-    
-      db.createObjectStore("files", { keyPath: "id", autoIncrement : true });
+
+      db.createObjectStore("files", { keyPath: "id" });
     };
 
     request.onsuccess = (e) => {
@@ -23,6 +24,7 @@ export function initDatabase() {
     };
   });
 }
+
 
 export function saveFile(db, fileData) {
   const transaction = db.transaction("files", "readwrite");
