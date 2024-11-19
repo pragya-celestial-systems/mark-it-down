@@ -9,7 +9,7 @@ export function initDatabase() {
         db.deleteObjectStore("files");
       }
     
-      db.createObjectStore("files", { keyPath: "id" });
+      db.createObjectStore("files", { keyPath: "id", autoIncrement : true });
     };
 
     request.onsuccess = (e) => {
