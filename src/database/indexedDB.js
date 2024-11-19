@@ -29,7 +29,7 @@ export function initDatabase() {
 export function saveFile(db, fileData) {
   const transaction = db.transaction("files", "readwrite");
   const objectStore = transaction.objectStore("files");
-  const addRequest = objectStore.add(fileData, fileData.id);
+  const addRequest = objectStore.add(fileData);
 
   addRequest.onsuccess = function (event) {
     console.log("data added successfully.");
@@ -110,7 +110,7 @@ export async function updateFile(fileData) {
     const db = await initDatabase();
     const transaction = db.transaction("files", "readwrite");
     const objectStore = transaction.objectStore("files");
-    const request = objectStore.put(fileData, fileData.id);
+    const request = objectStore.put(fileData);
 
     request.onsuccess = () => {
       console.log("file updated");
