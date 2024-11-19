@@ -4,8 +4,12 @@ export function initDatabase() {
 
     request.onupgradeneeded = (e) => {
       const db = e.target.result;
-      const objectStore = db.createObjectStore("files", { keyPath: "id" });
-      objectStore.createIndex("file", "readmeFile", { unique: true });
+
+      if (db.objectStoreNames.contains("files")) {
+        db.deleteObjectStore("files");
+      }
+    
+      db.createObjectStore("files", { keyPath: "id" });
     };
 
     request.onsuccess = (e) => {
