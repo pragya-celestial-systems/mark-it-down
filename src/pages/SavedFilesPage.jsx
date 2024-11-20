@@ -16,7 +16,7 @@ function SavedFilesPage() {
       const data = await getAllFiles(db);
       setFiles(data);
     } catch (error) {
-      toast.error("Error fetching files");
+      toast.error("Error fetching files", { ToastContainer: "savedFileToast" });
       console.error(error);
     }
   }
@@ -43,7 +43,7 @@ function SavedFilesPage() {
     <div id={styles.container}>
       <MUIBreadCrumbs page="Saved files" />
       <FilesList listItems={files} />
-      <ToastContainer />
+      <ToastContainer containerId="savedFileToast" closeOnClick={true} />
     </div>
   );
 }

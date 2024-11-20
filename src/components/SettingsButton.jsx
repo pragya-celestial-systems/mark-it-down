@@ -89,7 +89,7 @@ export default function SettingsButton() {
         <ListItem disablePadding>
           <ListItemButton onClick={handleToggleDownload}>
             <ListItemIcon>
-              {toggleDownload ? (
+              {!toggleDownload ? (
                 <CheckBoxIcon style={{ color: "lightgrey" }} />
               ) : (
                 <CropSquareIcon style={{ color: "lightgrey" }} />
@@ -97,7 +97,7 @@ export default function SettingsButton() {
             </ListItemIcon>
             <ListItemText
               style={{ color: "lightgrey" }}
-              primary={toggleDownload ? "Disable Download" : "Enable Download"}
+              primary="Enable Download"
             />
           </ListItemButton>
         </ListItem>

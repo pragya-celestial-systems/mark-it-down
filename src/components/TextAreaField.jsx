@@ -5,6 +5,8 @@ import DownloadIcon from "@mui/icons-material/Download";
 import { useTextAreaContext } from "../context/TextAreaContext";
 import Markdown from "react-markdown";
 import { useToggleContext } from "../context/ToggleContext";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function TextAreaField({ isEditable, title, isEditing = false }) {
   const codeAreaRef = useRef();
@@ -25,6 +27,16 @@ function TextAreaField({ isEditable, title, isEditing = false }) {
   }
 
   function handleDownloadFile() {
+    if (!value) {
+      if (!toast.isActive("empty-file")) {
+        toast.error("Can't download an empty file", {
+          toastId: "empty-file",
+          containerId: "textAreaToast",
+        });
+      }
+      return;
+    }
+
     let extension = isEditable ? "md" : "html";
     const mimeType = extension === "md" ? "text/markdown" : "text/html";
 
@@ -60,7 +72,7 @@ function TextAreaField({ isEditable, title, isEditing = false }) {
             readOnly={!isEditable}
           />
         ) : (
-          <p className={styles.fileName}>{fileName} Preview</p>
+          <p className={styles.fileName}>{fileName}-preview</p>
         )}
         <Button
           style={{ background: "#7077a1" }}
@@ -84,6 +96,7 @@ function TextAreaField({ isEditable, title, isEditing = false }) {
           <Markdown>{value}</Markdown>
         </div>
       )}
+      <ToastContainer containerId="textAreaToast" closeOnClick={true} />
     </div>
   );
 }

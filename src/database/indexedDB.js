@@ -28,17 +28,7 @@ export function initDatabase() {
 export function saveFile(db, fileData) {
   const transaction = db.transaction("files", "readwrite");
   const objectStore = transaction.objectStore("files");
-  const addRequest = objectStore.add(fileData);
-
-  addRequest.onsuccess = function (event) {
-    console.log("data added successfully.");
-  };
-
-  let getRequest = objectStore.get(1);
-
-  getRequest.onsuccess = function (event) {
-    let result = event.target.result;
-  };
+  objectStore.add(fileData, fileData.id);
 }
 
 export function getAllFiles(db) {
@@ -63,10 +53,9 @@ export function getAllFiles(db) {
 }
 
 export function getFile(id) {
-  // let db;
   const result = initDatabase().then((db) => {
-    // db = database
     if (!db) return;
+
     return new Promise((resolve, reject) => {
       const transaction = db?.transaction("files", "readwrite");
       const objectStore = transaction.objectStore("files");
@@ -108,15 +97,7 @@ export async function updateFile(fileData) {
     const db = await initDatabase();
     const transaction = db.transaction("files", "readwrite");
     const objectStore = transaction.objectStore("files");
-    const request = objectStore.put(fileData);
-
-    request.onsuccess = () => {
-      console.log("file updated");
-    };
-
-    request.onerror = (err) => {
-      console.log(err.message);
-    };
+    objectStore.put(fileData, fileData.id);
   } catch (error) {
     console.log(error);
     throw new Error("Couldn't update file");

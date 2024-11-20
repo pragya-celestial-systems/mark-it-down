@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import { deleteFile, getAllFiles } from "../database/indexedDB";
 import { useDatabaseContext } from "../context/DatabaseContext";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function FileButton({ fileData }) {
   const { setValue } = useTextAreaContext();
@@ -51,11 +53,25 @@ function FileButton({ fileData }) {
 
   async function handleDeleteFile() {
     try {
+      const confirm = window.confirm(
+        "Are you sure you want to delete this file?"
+      );
+
+      if (!confirm) return;
+
       const response = await deleteFile(database, fileData.id);
 
       if (response.status === 200) {
         const data = await getAllFiles(database);
         setFiles(data);
+
+        // delete existing toast if any
+        if (!toast.isActive("file-delete")) {
+          toast.success("File deleted successfully", {
+            toastId: "file-delete",
+            containerId: "fileButtonToast",
+          });
+        }
       }
     } catch (error) {
       console.log(error.message);
@@ -67,30 +83,33 @@ function FileButton({ fileData }) {
   }
 
   return (
-    <div
-      id={styles.container}
-      onClick={handleDisplayPreview}
-      onContextMenu={handleDisplayContextMenu}
-    >
-      <h3 id={styles.fileName}>{fileData.fileName || "Untitled File"}</h3>
-      {displayMenu && (
-        <div
-          style={menuStyles}
-          id={styles.contextMenu}
-          onClick={(e) => e.stopPropagation()}
-        >
-          <p className={styles.option} onClick={handleEditFile}>
-            <EditIcon style={{ marginRight: "5px" }} /> Edit
-          </p>
-          <p className={styles.option} onClick={handleDeleteFile}>
-            <DeleteIcon style={{ marginRight: "5px" }} /> Delete
-          </p>
-          <p className={styles.option} onClick={handleOpenPreviewPage}>
-            <VisibilityIcon style={{ marginRight: "5px" }} /> See Preview
-          </p>
-        </div>
-      )}
-    </div>
+    <>
+      <div
+        id={styles.container}
+        onClick={handleDisplayPreview}
+        onContextMenu={handleDisplayContextMenu}
+      >
+        <h3 id={styles.fileName}>{fileData.fileName || "Untitled File"}</h3>
+        {displayMenu && (
+          <div
+            style={menuStyles}
+            id={styles.contextMenu}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <p className={styles.option} onClick={handleEditFile}>
+              <EditIcon style={{ marginRight: "5px" }} /> Edit
+            </p>
+            <p className={styles.option} onClick={handleDeleteFile}>
+              <DeleteIcon style={{ marginRight: "5px" }} /> Delete
+            </p>
+            <p className={styles.option} onClick={handleOpenPreviewPage}>
+              <VisibilityIcon style={{ marginRight: "5px" }} /> See Preview
+            </p>
+          </div>
+        )}
+      </div>
+      <ToastContainer containerId="fileButtonToast" closeOnClick={true} />
+    </>
   );
 }
 

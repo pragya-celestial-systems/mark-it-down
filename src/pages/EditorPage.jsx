@@ -34,13 +34,25 @@ function EditorPage() {
       if (data) {
         setValue(data.readmeFile || "");
         setFileName(data.fileName || "untitled");
-        toast.success("Editing file.");
+
+        if (!toast.isActive("edit-file")) {
+          toast.warn("Editing File", {
+            toastId: "edit-file",
+            containerId: "editorPageToast",
+          });
+        }
       } else {
-        toast.error("File not found.");
+        if (!toast.isActive("not-found")) {
+          toast.error("File not found", {
+            toastId: "not-found",
+            containerId: "editorPageToast",
+          });
+        }
       }
     } catch (error) {
-      console.error(error);
-      toast.error("Error fetching file data.");
+      toast.error("Error fetching file data.", {
+        containerId: "editorPageToast",
+      });
     }
   }
 
@@ -53,13 +65,23 @@ function EditorPage() {
   function handleSaveFile() {
     try {
       if (!value) {
-        toast.error("Can't save an empty file.");
-        return;
+        if (!toast.isActive("save-empty-file")) {
+          toast.error("Can't save an empty file.", {
+            toastId: "save-empty-file",
+            containerId: "editorPageToast",
+          });
+          return;
+        }
       }
 
       if (!fileName || fileName.includes(" ")) {
-        toast.error("File Name can't include empty space.");
-        return;
+        if (!toast.isActive("space")) {
+          toast.error("File Name can't include space.", {
+            toastId: "space",
+            containerId: "editorPageToast",
+          });
+          return;
+        }
       }
 
       let fileData = {
@@ -75,7 +97,13 @@ function EditorPage() {
 
           // update the existing file
           updateFile(fileData);
-          toast.success("File updated successfully");
+
+          if (!toast.isActive("file-update")) {
+            toast.success("File updated successfully", {
+              toastId: "file-update",
+              containerId: "editorPageToast",
+            });
+          }
 
           setTimeout(() => {
             navigate("/saved");
@@ -86,12 +114,18 @@ function EditorPage() {
           // clear the input fields
           setFileName("untitled");
           setValue("");
-          toast.success("File saved successfully");
+
+          if (!toast.isActive("file-saved")) {
+            toast.success("File saved successfully", {
+              toastId: "file-saved",
+              containerId: "editorPageToast",
+            });
+          }
         }
       }
     } catch (error) {
       console.error(error);
-      toast.error("Couldn't save file");
+      toast.error("Couldn't save file", { containerId: "editorPageToast" });
     }
   }
 
@@ -116,7 +150,7 @@ function EditorPage() {
           <TextAreaField isEditable={false} isEditing={isEditing} />
         </div>
       </main>
-      <ToastContainer />
+      <ToastContainer containerId="editorPageToast" closeOnClick={true} />
     </>
   );
 }
