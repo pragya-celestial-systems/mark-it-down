@@ -12,8 +12,6 @@ function FilesList({ listItems }) {
     if (listItems && listItems.length > 0) {
       setValue(listItems[0].readmeFile);
     }
-
-    console.log(listItems.length);
   }, [listItems]);
 
   return (

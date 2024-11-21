@@ -4,8 +4,13 @@ export function initDatabase() {
 
     request.onupgradeneeded = (e) => {
       const db = e.target.result;
-      const objectStore = db.createObjectStore("files", { keyPath: "id" });
-      objectStore.createIndex("file", "readmeFile", { unique: true });
+
+      // Delete the existing store to avoid errors in the deployed version
+      if (db.objectStoreNames.contains("files")) {
+        db.deleteObjectStore("files");
+      }
+
+      db.createObjectStore("files", { keyPath: "id" });
     };
 
     request.onsuccess = (e) => {
@@ -23,18 +28,7 @@ export function initDatabase() {
 export function saveFile(db, fileData) {
   const transaction = db.transaction("files", "readwrite");
   const objectStore = transaction.objectStore("files");
-  const addRequest = objectStore.add(fileData, fileData.id);
-
-  addRequest.onsuccess = function (event) {
-    console.log(event, "data added successfully.");
-  };
-
-  let getRequest = objectStore.get(1);
-
-  getRequest.onsuccess = function (event) {
-    let result = event.target.result;
-    console.log(result);
-  };
+  objectStore.add(fileData, fileData.id);
 }
 
 export function getAllFiles(db) {
@@ -52,8 +46,60 @@ export function getAllFiles(db) {
     };
 
     request.onerror = (err) => {
-      console.error(`Error to get all files: ${err}`);
+      console.error(err);
       reject(err);
     };
   });
+}
+
+export function getFile(id) {
+  const result = initDatabase().then((db) => {
+    if (!db) return;
+
+    return new Promise((resolve, reject) => {
+      const transaction = db?.transaction("files", "readwrite");
+      const objectStore = transaction.objectStore("files");
+      const request = objectStore.get(id);
+
+      request.onsuccess = () => {
+        resolve(request.result);
+      };
+
+      request.onerror = (err) => {
+        reject(err);
+      };
+    });
+  });
+
+  return result;
+}
+
+export function deleteFile(db, id) {
+  if (!db) return;
+
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction("files", "readwrite");
+    const objectStore = transaction.objectStore("files");
+    const request = objectStore.delete(id);
+
+    request.onsuccess = () => {
+      resolve({ status: 200 });
+    };
+
+    request.onerror = (err) => {
+      reject({ status: 500 });
+    };
+  });
+}
+
+export async function updateFile(fileData) {
+  try {
+    const db = await initDatabase();
+    const transaction = db.transaction("files", "readwrite");
+    const objectStore = transaction.objectStore("files");
+    objectStore.put(fileData, fileData.id);
+  } catch (error) {
+    console.log(error);
+    throw new Error("Couldn't update file");
+  }
 }

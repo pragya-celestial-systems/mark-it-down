@@ -15,7 +15,25 @@
 
 #contextMenu {
   background-color: white;
-  height: 100px;
   width: 150px;
   position: absolute;
+  border-radius: 3px;
+}
+
+.option {
+  margin: 0;
+  color: grey;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.7rem;
+  background: white;
+  border-bottom: 2px solid white;
+  display: flex;
+  align-items: center;
+}
+
+.option:hover {
+  background-color: whitesmoke;
+  transition: 0.3s;
+  cursor: pointer;
 }

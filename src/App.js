@@ -11,20 +11,21 @@ import SavedFilesPage from "./pages/SavedFilesPage";
 import { useEffect } from "react";
 import { initDatabase } from "./database/indexedDB";
 import { useDatabaseContext } from "./context/DatabaseContext";
+import PreviewPage from "./pages/PreviewPage";
 
 function App() {
   const { setDatabase } = useDatabaseContext();
 
-  useEffect(() => {
-    async function initializeDB() {
-      try {
-        const db = await initDatabase();
-        setDatabase(db);
-      } catch (error) {
-        console.error(error);
-      }
+  async function initializeDB() {
+    try {
+      const db = await initDatabase();
+      setDatabase(db);
+    } catch (error) {
+      console.error(error);
     }
+  }
 
+  useEffect(() => {
     initializeDB();
   }, []);
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/editor" element={<EditorPage />} />
             <Route path="/docs" element={<DocumentationPage />} />
             <Route path="/saved" element={<SavedFilesPage />} />
+            <Route path="/preview" element={<PreviewPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>
