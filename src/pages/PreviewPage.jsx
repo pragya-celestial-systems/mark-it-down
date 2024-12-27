@@ -1,12 +1,11 @@
 import React, { useEffect } from "react";
 import TextAreaField from "../components/TextAreaField";
-import { useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { getFile } from "../database/indexedDB";
 import { useTextAreaContext } from "../context/TextAreaContext";
 
 function PreviewPage() {
-  const [params] = useSearchParams();
-  const id = params.get("id");
+  const id = useParams();
   const { setValue } = useTextAreaContext();
 
   useEffect(() => {

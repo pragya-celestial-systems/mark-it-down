@@ -21,10 +21,11 @@ function SavedFilesPage() {
     }
   }
 
-  function addQueryParam(fileData) {
-    const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set("id", fileData.id);
-    window.history.pushState({}, "", newUrl);
+  function addParam(fileData) {
+    const currentPath = window.location.origin;
+    const newPath = `${currentPath}/saved/${fileData.id}`;
+    
+    window.history.pushState({}, "", newPath);
   }
 
   useEffect(() => {
@@ -35,9 +36,9 @@ function SavedFilesPage() {
 
   useEffect(() => {
     if (files.length > 0) {
-      addQueryParam(files[0]);
+      addParam(files[0]);
     }
-  }, [files]);
+  }, []);
 
   return (
     <div id={styles.container}>

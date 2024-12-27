@@ -29,14 +29,14 @@ function FileButton({ fileData }) {
     };
   }, []);
 
-  function addQueryParam(id) {
-    const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set("id", fileData.id);
-    window.history.pushState({}, "", newUrl);
+  function addParam(id) {
+    const currentPath = new URL(window.location.origin);
+    const newPath = `${currentPath}saved/${fileData.id}`;
+    window.history.pushState({}, "", newPath);
   }
 
   function handleDisplayPreview() {
-    addQueryParam();
+    addParam();
     setValue(fileData.readmeFile);
   }
 
@@ -79,7 +79,7 @@ function FileButton({ fileData }) {
   }
 
   function handleOpenPreviewPage() {
-    navigate(`/preview?id=${fileData.id}`);
+    navigate(`/preview/${fileData.id}`);
   }
 
   return (
