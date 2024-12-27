@@ -29,10 +29,12 @@ function App() {
     initializeDB();
   }, []);
 
+  const basename = process.env.NODE_ENV === 'production' ? '/mark-it-down' : '';
+
   return (
     <ToggleContextProvider>
       <TextAreaContextProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={basename}>
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
