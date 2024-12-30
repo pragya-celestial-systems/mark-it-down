@@ -32,7 +32,7 @@ function App() {
   return (
     <ToggleContextProvider>
       <TextAreaContextProvider>
-        <BrowserRouter>
+        <BrowserRouter basename="mark-it-down">
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
