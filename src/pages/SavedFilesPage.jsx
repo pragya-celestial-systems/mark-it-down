@@ -21,9 +21,9 @@ function SavedFilesPage() {
     }
   }
 
-  function addParam(fileData) {
+  function addParam(id) {
     const currentPath = window.location.origin;
-    const newPath = `${currentPath}/saved/${fileData.id}`;
+    const newPath = `${currentPath}/saved/${id}`;
     
     window.history.pushState({}, "", newPath);
   }
@@ -36,7 +36,7 @@ function SavedFilesPage() {
 
   useEffect(() => {
     if (files.length > 0) {
-      addParam(files[0]);
+      addParam(files[0].id);
     }
   }, []);
 
