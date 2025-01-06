@@ -36,11 +36,11 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/editor" element={<EditorPage />} />
-            <Route path="/docs" element={<DocumentationPage />} />
-            <Route path="/saved" element={<SavedFilesPage />} />
-            <Route path="/saved/:id" element={<SavedFilesPage />} />
-            <Route path="/preview/:id" element={<PreviewPage />} />
+            <Route path="editor" element={<EditorPage />} />
+            <Route path="docs" element={<DocumentationPage />} />
+            <Route path="saved" element={<SavedFilesPage />} />
+            <Route path="saved/:id" element={<SavedFilesPage />} />
+            <Route path="preview/:id" element={<PreviewPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
         </BrowserRouter>
